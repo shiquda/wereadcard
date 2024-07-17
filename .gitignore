@@ -1,0 +1,5 @@
+.gitignore
+/.venv
+/__pycache__
+shelf_info.json
+weread_card.svg

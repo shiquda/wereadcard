@@ -34,6 +34,8 @@
 
 现在Github Actions默认会每间隔8个小时更新一次图像，并推送至仓库。更新的卡片在`/output/recent_read.svg`可以找到。
 
+当然，你也可以手动触发Actions。
+
 #### 获取图片直链
 
 在GitHub进入图片，`Raw`对应的就是直链链接。如果网络环境不好的，可以考虑使用镜像站加速，将URL中的`githubusercontent`替换为`kkgithub`，如：
@@ -62,6 +64,12 @@ pip install -r requirements.txt
 - `--number, -n`：生成卡片中图书的数量。
 
 运行后生成的卡片在`/output`目录中。
+
+## TO-DO
+
+- [ ] 添加阅读进度展示
+- [ ] 添加总阅读时长、阅读书目等展示
+- [ ] 美化样式
 
 ## 致谢
 

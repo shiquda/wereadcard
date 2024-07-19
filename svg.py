@@ -25,3 +25,27 @@ book_template = """
   <div class="title">{title}</div>
 </div>
 """
+
+
+def download_cover(cover_url):
+    response = requests.get(cover_url)
+    return response.content
+
+def generate_recent_books_html(recent_books):
+    books_html = ""
+    for book in recent_books:
+        cover_data = base64.b64encode(download_cover(book["cover"])).decode('utf-8')
+        books_html += book_template.format(
+            cover=cover_data,
+            title=book["title"]
+        )
+    return books_html
+
+def generate_card_svg(recent_read_info):
+	"""
+	返回卡片svg的字符串
+	"""
+	recent_books_html = generate_recent_books_html(recent_read_info)
+	svg_content = svg_template.format(books=recent_books_html)
+	return svg_content
+

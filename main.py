@@ -1,6 +1,5 @@
 import requests
 import json
-import base64
 import argparse
 from http.cookies import SimpleCookie
 from requests.utils import cookiejar_from_dict

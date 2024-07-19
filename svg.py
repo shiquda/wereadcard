@@ -1,3 +1,6 @@
+import base64
+import requests
+
 svg_template = """
 <svg width="600" height="240"""  """" xmlns="http://www.w3.org/2000/svg">
   <style>

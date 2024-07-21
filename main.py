@@ -8,6 +8,7 @@ from svg import generate_card_svg
 from dotenv import load_dotenv
 
 WEREAD_SHELF_URL = "https://weread.qq.com/web/shelf"
+WEREAD_READ_INFO_URL = "https://i.weread.qq.com/book/readinfo"
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0"
 
 weread_cookie = ""
@@ -45,14 +46,41 @@ def parse_recent_reads(shelf_info, books_count=5):
     for book in shelf_info:
         if books_count == 0:
             break
+
+        book_read_info = get_book_read_info(book["bookId"])  # 获取阅读信息
+        reading_time = book_read_info["readingTime"]  # 单位：秒
+        marked_status = book_read_info["markedStatus"]  # 4 为读完，其余为在读
         recent_reads.append({
             "bookId": book["bookId"],
             "title": book["title"],
             "author": book["author"],
             "cover": book["cover"],
+            "reading_time": parse_time(reading_time),
+            "finished": marked_status == 4,
         })
         books_count -= 1
     return recent_reads
+
+
+def get_book_read_info(bookId):
+    params = dict(bookId=bookId, readingDetail=1, readingBookIndex=1, finishedDate=1)
+    r = session.get(WEREAD_READ_INFO_URL, params=params)
+    if r.ok:
+        return dict(r.json())
+    return None
+
+
+def parse_time(seconds):
+    """
+    将秒数转换为时分秒字符串
+    """
+    m, s = divmod(seconds, 60)
+    h, m = divmod(m, 60)
+    if h == 0:
+        if m == 0:
+            return f"{s} 秒"
+        return f"{m} 分 {s} 秒"
+    return f"{h} 时 {m} 分 {s} 秒"
 
 
 if __name__ == '__main__':
@@ -80,9 +108,11 @@ if __name__ == '__main__':
         "User-Agent": USER_AGENT
     })
 
-    print("获取书架数据...")
+    print("获取书架数据...", end="")
     shelf_info = get_shelf_info()
     recent_read_info = parse_recent_reads(shelf_info, books_count=book_count)
+    # print(recent_read_info)
+    print("OK!")
 
     svg_content = generate_card_svg(recent_read_info)
 

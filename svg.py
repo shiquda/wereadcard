@@ -1,5 +1,6 @@
 import base64
 import requests
+from tqdm import tqdm
 
 svg_template = """
 <svg width="600" height="240"""  """" xmlns="http://www.w3.org/2000/svg">
@@ -34,9 +35,10 @@ def download_cover(cover_url):
     response = requests.get(cover_url)
     return response.content
 
+
 def generate_recent_books_html(recent_books):
     books_html = ""
-    for book in recent_books:
+    for book in tqdm(recent_books, desc="下载封面", unit="book"):
         cover_data = base64.b64encode(download_cover(book["cover"])).decode('utf-8')
         books_html += book_template.format(
             cover=cover_data,
@@ -44,11 +46,11 @@ def generate_recent_books_html(recent_books):
         )
     return books_html
 
-def generate_card_svg(recent_read_info):
-	"""
-	返回卡片svg的字符串
-	"""
-	recent_books_html = generate_recent_books_html(recent_read_info)
-	svg_content = svg_template.format(books=recent_books_html)
-	return svg_content
 
+def generate_card_svg(recent_read_info):
+    """
+    返回卡片svg的字符串
+    """
+    recent_books_html = generate_recent_books_html(recent_read_info)
+    svg_content = svg_template.format(books=recent_books_html)
+    return svg_content

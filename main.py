@@ -23,6 +23,7 @@ def parse_cookie_string(cookie_string):
             cookies_dict, cookiejar=None, overwrite=True)
     return cookiejar
 
+
 def get_shelf_info():
     try:
         r = session.get(WEREAD_SHELF_URL)
@@ -34,6 +35,7 @@ def get_shelf_info():
         return shelf_info
     except Exception as e:
         raise Exception("Failed to get recent reads: " + str(e))
+
 
 def parse_recent_reads(shelf_info, books_count=5):
     shelf_info = shelf_info["shelf"]["booksAndArchives"]
@@ -67,9 +69,13 @@ if __name__ == '__main__':
         "User-Agent": user_agent
     })
 
+    print("获取书架数据...")
     shelf_info = get_shelf_info()
     recent_read_info = parse_recent_reads(shelf_info, books_count=book_count)
+
     svg_content = generate_card_svg(recent_read_info)
 
     with open("./output/recent_read.svg", "w", encoding="utf-8") as file:
         file.write(svg_content)
+
+    print("卡片更新成功！")

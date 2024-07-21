@@ -58,10 +58,18 @@ https://raw.kkgithub.com/shiquda/wereadcard/main/output/recent_read.svg
 pip install -r requirements.txt
 ```
 
-支持两种使用方式：可以直接在`main.py`中配置cookie等参数，然后直接运行，或者使用命令行参数：
+支持三种使用方式：
+
+可以直接在`main.py`中配置cookie等参数，然后直接运行。
+
+或者使用命令行参数：
 
 - `--cookie, -c`：cookie字符串，注意在字符串两端加上引号。
 - `--number, -n`：生成卡片中图书的数量。
+
+或者参照`.env.example` 配置 `.env` 文件。
+
+优先级：`命令行参数 > .env > main.py 中直接配置变量`。
 
 运行后生成的卡片在`/output`目录中。
 

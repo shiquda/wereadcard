@@ -1,12 +1,14 @@
 import requests
 import json
 import argparse
+import os
 from http.cookies import SimpleCookie
 from requests.utils import cookiejar_from_dict
 from svg import generate_card_svg
+from dotenv import load_dotenv
 
 WEREAD_SHELF_URL = "https://weread.qq.com/web/shelf"
-user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0"
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0"
 
 weread_cookie = ""
 book_count = 5
@@ -54,6 +56,15 @@ def parse_recent_reads(shelf_info, books_count=5):
 
 
 if __name__ == '__main__':
+    # 读取.env文件中的变量
+    try:
+        load_dotenv()
+        weread_cookie = os.getenv("WEREAD_COOKIE")
+        book_count = int(os.getenv("BOOK_COUNT"))
+    except:
+        pass
+
+    # 解析命令行参数
     parser = argparse.ArgumentParser()
     parser.add_argument("-c", "--cookie", help="cookie string from weread.qq.com")
     parser.add_argument("-n", "--number", help="number of books to display", type=int)
@@ -66,7 +77,7 @@ if __name__ == '__main__':
     session = requests.Session()
     session.cookies.update(parse_cookie_string(weread_cookie))
     session.headers.update({
-        "User-Agent": user_agent
+        "User-Agent": USER_AGENT
     })
 
     print("获取书架数据...")

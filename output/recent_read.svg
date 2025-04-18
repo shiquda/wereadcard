@@ -26,6 +26,14 @@
       width: 40px; 
       height: 40px; 
     }
+    .title { 
+      font-size: 16px;
+      max-width: 120px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: white;
+    }
     .time { 
       font-size: 14px;
       color: white; 
@@ -48,7 +56,7 @@
   </div>
   <div class="info">
     <div class="title">血酬定律：中国历史中的生存游戏</div>
-    <div class="time">45 分 0 秒</div>
+    <div class="time">00:45:00</div>
   </div>
 </div>
 
@@ -60,7 +68,7 @@
   </div>
   <div class="info">
     <div class="title">百年孤独</div>
-    <div class="time">9 分 30 秒</div>
+    <div class="time">00:09:30</div>
   </div>
 </div>
 
@@ -72,7 +80,7 @@
   </div>
   <div class="info">
     <div class="title">金钱心理学：财富、人性和幸福的永恒真相</div>
-    <div class="time">4 时 14 分 9 秒</div>
+    <div class="time">04:14:09</div>
   </div>
 </div>
 
@@ -84,7 +92,7 @@
   </div>
   <div class="info">
     <div class="title">为什么我们总是在防御</div>
-    <div class="time">5 时 33 分 47 秒</div>
+    <div class="time">05:33:47</div>
   </div>
 </div>
 

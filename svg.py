@@ -1,4 +1,5 @@
 import base64
+
 import requests
 from tqdm import tqdm
 
@@ -31,6 +32,14 @@ svg_template = """
       transform: translate(-50%, -50%); 
       width: 40px; 
       height: 40px; 
+    }}
+    .title {{ 
+      font-size: 16px;
+      max-width: 120px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: white;
     }}
     .time {{ 
       font-size: 14px;
@@ -76,16 +85,16 @@ def generate_recent_books_html(recent_books):
     books_html = ""
     with open(tick_path, "rb") as f:
         tick = f.read()
-        finished_icon_base64 = base64.b64encode(tick).decode('utf-8')
+        finished_icon_base64 = base64.b64encode(tick).decode("utf-8")
 
     for book in tqdm(recent_books, desc="下载封面", unit="book"):
-        cover_data = base64.b64encode(download_cover(book["cover"])).decode('utf-8')
+        cover_data = base64.b64encode(download_cover(book["cover"])).decode("utf-8")
         books_html += book_template.format(
             cover=cover_data,
             title=book["title"],
             reading_time=book["reading_time"],
             finished_display="block" if book["finished"] else "none",
-            finished_icon=finished_icon_base64
+            finished_icon=finished_icon_base64,
         )
     return books_html
 
